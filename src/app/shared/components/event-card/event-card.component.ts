@@ -11,7 +11,7 @@ import { EventsService } from '../../../core/services/events.service';
   template: `
     <a [routerLink]="['/events', event.id]" class="card">
       <div class="card-image">
-        <img [src]="event.image" [alt]="event.name" loading="lazy">
+        <img [src]="event.image" [alt]="event.name" loading="lazy" (error)="handleImgError($event)">
         <div class="card-overlay"></div>
         <span class="tag" [class]="'tag-'+event.category">{{ categoryLabel }}</span>
         <button class="fav-btn" (click)="toggleFav($event)" [class.active]="isFav">
@@ -86,5 +86,9 @@ export class EventCardComponent {
     (e as MouseEvent).preventDefault();
     (e as MouseEvent).stopPropagation();
     this.svc.toggleFavorite(this.event.id);
+  }
+
+  handleImgError(event: any) {
+    event.target.src = 'assets/images/placeholder-event.jpg';
   }
 }
